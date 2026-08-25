@@ -459,17 +459,26 @@ body {
   border-bottom: 1px solid var(--hairline);
   border-radius: 8px;
   opacity: 0;
-  transform: translateY(22px) scale(0.985);
-  transition: opacity 480ms cubic-bezier(0.16, 1, 0.3, 1),
-              transform 480ms cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 160ms ease,
-              box-shadow 160ms ease;
-  will-change: opacity, transform;
+  transform: translateY(16px);
+  transition: transform 90ms ease-out, background-color 90ms ease-out, box-shadow 90ms ease-out;
+  will-change: transform, opacity;
 }
 
 .entry.is-visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
+  animation: entryReveal 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes entryReveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .entry:hover {
@@ -535,7 +544,8 @@ body {
   cursor: pointer;
   flex-shrink: 0;
   opacity: 0.6;
-  transition: opacity 180ms ease, color 180ms ease, background-color 180ms ease, transform 180ms ease;
+  transition: opacity 90ms ease, color 90ms ease, background-color 90ms ease, transform 90ms ease;
+  will-change: opacity, transform;
 }
 
 .entry:hover .entry-delete-btn {
@@ -549,7 +559,7 @@ body {
   transform: scale(1.06);
 }
 
-/* 开盖垃圾桶动效 */
+/* 开盖垃圾桶动效：极速精准跟手 */
 .trash-can-icon {
   width: 18px;
   height: 18px;
@@ -558,16 +568,18 @@ body {
 
 .trash-can-icon .trash-lid {
   transform-origin: 3.5px 7px;
-  transition: transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 90ms ease-out;
+  will-change: transform;
 }
 
-/* 光标悬停时朝一侧优雅微掀开垃圾桶盖子 */
+/* 光标悬停时即时微掀开垃圾桶盖子 */
 .entry-delete-btn:hover .trash-can-icon .trash-lid {
   transform: rotate(-18deg) translate(-1px, -1.5px);
+  transition: transform 110ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .trash-can-icon .trash-body {
-  transition: stroke 180ms ease;
+  transition: stroke 90ms ease;
 }
 
 .entry-title {
@@ -577,7 +589,7 @@ body {
   background-repeat: no-repeat;
   background-position: 0 100%;
   background-size: 0 2px;
-  transition: background-size 160ms ease;
+  transition: background-size 90ms ease-out;
 }
 
 .entry-title:hover,
