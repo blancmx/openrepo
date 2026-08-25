@@ -561,9 +561,9 @@ body {
   transition: transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* 光标悬停时朝一侧优雅弹开垃圾桶盖子 */
+/* 光标悬停时朝一侧优雅微掀开垃圾桶盖子 */
 .entry-delete-btn:hover .trash-can-icon .trash-lid {
-  transform: rotate(-35deg) translate(-2px, -3px);
+  transform: rotate(-18deg) translate(-1px, -1.5px);
 }
 
 .trash-can-icon .trash-body {
