@@ -648,6 +648,65 @@ article > h1 {
   border-bottom: 1px solid var(--hairline);
   padding-bottom: 16px;
   margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.detail-admin-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.detail-edit-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 120ms ease;
+}
+
+.detail-edit-link:hover {
+  color: var(--cinnabar);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.detail-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: color 120ms ease, background-color 120ms ease;
+}
+
+.detail-delete-btn:hover {
+  color: var(--cinnabar);
+  background: rgba(194, 64, 31, 0.08);
+}
+
+.detail-delete-btn .trash-can-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.detail-delete-btn .trash-can-icon .trash-lid {
+  transform-origin: 3.5px 7px;
+  transition: transform 90ms ease-out;
+}
+
+.detail-delete-btn:hover .trash-can-icon .trash-lid {
+  transform: rotate(-18deg) translate(-1px, -1.5px);
+  transition: transform 110ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .meta a,
