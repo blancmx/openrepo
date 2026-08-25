@@ -1,0 +1,17 @@
+{
+  "name": "quill-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "个人博客系统后端服务",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3"
+  }
+}
