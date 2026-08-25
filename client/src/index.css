@@ -1869,7 +1869,63 @@ article > h1 {
 }
 
 .profile-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   flex-shrink: 0;
+}
+
+.profile-theme-quick-btn,
+.profile-logout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 140ms ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.profile-theme-quick-btn .btn-icon,
+.profile-logout-btn .btn-icon {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  flex-shrink: 0;
+  transition: transform 200ms ease, color 140ms ease;
+}
+
+.profile-theme-quick-btn:hover {
+  border-color: var(--muted);
+  background: rgba(128, 128, 128, 0.06);
+  color: var(--cinnabar);
+}
+
+.profile-theme-quick-btn:hover .btn-icon {
+  transform: rotate(20deg) scale(1.1);
+  color: var(--cinnabar);
+}
+
+.profile-logout-btn:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.06);
+}
+
+.profile-logout-btn:hover .btn-icon {
+  transform: translateX(2px);
 }
 
 /* Tabs 导航 */

@@ -10,6 +10,7 @@ import {
   IconShield,
   IconSun,
   IconMoon,
+  IconLogOut,
 } from '../components/Icons.jsx'
 import { getInitialTheme, applyTheme } from '../utils/theme.js'
 
@@ -228,15 +229,21 @@ export default function ProfilePage({ auth, onLogout }) {
         <div className="profile-hero-actions">
           <button
             type="button"
-            className="btn btn-outline profile-theme-quick-btn"
+            className="profile-theme-quick-btn"
             onClick={() => handleThemeChange(currentTheme === 'dark' ? 'light' : 'dark')}
             title={currentTheme === 'dark' ? '切换为浅色模式' : '切换为深色模式'}
           >
             {currentTheme === 'dark' ? <IconSun className="btn-icon" /> : <IconMoon className="btn-icon" />}
             <span>{currentTheme === 'dark' ? '浅色模式' : '深色模式'}</span>
           </button>
-          <button type="button" className="btn btn-outline" onClick={handleLogout}>
-            退出登录
+          <button
+            type="button"
+            className="profile-logout-btn"
+            onClick={handleLogout}
+            title="退出当前登录"
+          >
+            <IconLogOut className="btn-icon" />
+            <span>退出登录</span>
           </button>
         </div>
       </section>
