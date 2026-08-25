@@ -530,7 +530,14 @@ body {
   min-width: 0;
 }
 
-.entry-delete-btn {
+.entry-admin-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.entry-action-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -542,21 +549,42 @@ body {
   background: transparent;
   color: var(--muted);
   cursor: pointer;
-  flex-shrink: 0;
+  text-decoration: none;
   opacity: 0.6;
   transition: opacity 90ms ease, color 90ms ease, background-color 90ms ease, transform 90ms ease;
   will-change: opacity, transform;
 }
 
-.entry:hover .entry-delete-btn {
+.entry:hover .entry-action-btn {
   opacity: 0.85;
+}
+
+.entry-action-btn:hover {
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+.entry-edit-btn:hover {
+  color: var(--ink);
+  background: rgba(28, 39, 51, 0.07);
 }
 
 .entry-delete-btn:hover {
   color: var(--cinnabar);
   background: rgba(194, 64, 31, 0.09);
-  opacity: 1;
-  transform: scale(1.06);
+}
+
+/* 铅笔微倾斜灵动微动效 */
+.edit-pencil-icon {
+  width: 17px;
+  height: 17px;
+  transition: transform 120ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+
+.entry-edit-btn:hover .edit-pencil-icon,
+.detail-edit-btn:hover .edit-pencil-icon {
+  transform: rotate(-12deg) scale(1.08);
 }
 
 /* 开盖垃圾桶动效：极速精准跟手 */
@@ -658,35 +686,28 @@ article > h1 {
 .detail-admin-actions {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
-.detail-edit-link {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 13px;
-  transition: color 120ms ease;
-}
-
-.detail-edit-link:hover {
-  color: var(--cinnabar);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.detail-delete-btn {
+.detail-action-btn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
+  gap: 5px;
+  padding: 4px 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   background: transparent;
   color: var(--muted);
   font-family: inherit;
   font-size: 13px;
   cursor: pointer;
+  text-decoration: none;
   transition: color 120ms ease, background-color 120ms ease;
+}
+
+.detail-edit-btn:hover {
+  color: var(--ink);
+  background: rgba(28, 39, 51, 0.06);
 }
 
 .detail-delete-btn:hover {
@@ -694,7 +715,12 @@ article > h1 {
   background: rgba(194, 64, 31, 0.08);
 }
 
-.detail-delete-btn .trash-can-icon {
+.detail-action-btn .edit-pencil-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.detail-action-btn .trash-can-icon {
   width: 15px;
   height: 15px;
 }

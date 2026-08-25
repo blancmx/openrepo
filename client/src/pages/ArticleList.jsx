@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { getArticles, deleteArticle } from '../api/articles.js'
 import { formatDateParts } from '../utils/date.js'
-import { IconPlus, IconTrash } from '../components/Icons.jsx'
+import { IconPlus, IconTrash, IconEdit } from '../components/Icons.jsx'
 import ConfirmModal from '../components/ConfirmModal.jsx'
 
 function ArticleEntry({ article, onTagClick, onDelete, isAdmin, index }) {
@@ -59,21 +59,31 @@ function ArticleEntry({ article, onTagClick, onDelete, isAdmin, index }) {
             </Link>
           </h2>
 
-          {/* 带有开盖动效的垃圾桶删除按钮 */}
+          {/* 管理员操作按钮组：铅笔编辑 + 开盖垃圾桶删除 */}
           {isAdmin && (
-            <button
-              type="button"
-              className="entry-delete-btn"
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                onDelete(article)
-              }}
-              title="删除文章"
-              aria-label="删除文章"
-            >
-              <IconTrash className="trash-can-icon" />
-            </button>
+            <div className="entry-admin-actions">
+              <Link
+                to={`/articles/${article.id}/edit`}
+                className="entry-action-btn entry-edit-btn"
+                title="编辑文章"
+                aria-label="编辑文章"
+              >
+                <IconEdit className="edit-pencil-icon" />
+              </Link>
+              <button
+                type="button"
+                className="entry-action-btn entry-delete-btn"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onDelete(article)
+                }}
+                title="删除文章"
+                aria-label="删除文章"
+              >
+                <IconTrash className="trash-can-icon" />
+              </button>
+            </div>
           )}
         </div>
 

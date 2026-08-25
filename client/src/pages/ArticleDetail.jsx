@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import { getArticle, deleteArticle } from '../api/articles.js'
 import { formatDateTime } from '../utils/date.js'
-import { IconTrash } from '../components/Icons.jsx'
+import { IconEdit, IconTrash } from '../components/Icons.jsx'
 import ConfirmModal from '../components/ConfirmModal.jsx'
 
 export default function ArticleDetail({ auth }) {
@@ -52,12 +52,17 @@ export default function ArticleDetail({ auth }) {
         <span>发布于 {formatDateTime(article.created_at)}</span>
         {auth?.role === 'admin' && (
           <div className="detail-admin-actions">
-            <Link to={`/articles/${id}/edit`} className="detail-edit-link">
-              编辑
+            <Link
+              to={`/articles/${id}/edit`}
+              className="detail-action-btn detail-edit-btn"
+              title="编辑文章"
+            >
+              <IconEdit className="edit-pencil-icon" />
+              <span>编辑</span>
             </Link>
             <button
               type="button"
-              className="detail-delete-btn"
+              className="detail-action-btn detail-delete-btn"
               onClick={() => setShowDeleteModal(true)}
               title="删除文章"
               aria-label="删除文章"
