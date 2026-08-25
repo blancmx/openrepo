@@ -8,7 +8,10 @@ import {
   IconUser,
   IconLock,
   IconShield,
+  IconSun,
+  IconMoon,
 } from '../components/Icons.jsx'
+import { getInitialTheme, applyTheme } from '../utils/theme.js'
 
 function formatDate(str) {
   if (!str) return ''
@@ -22,6 +25,22 @@ export default function ProfilePage({ auth, onLogout }) {
   const [profileData, setProfileData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+
+  // 界面外观主题状态
+  const [currentTheme, setCurrentTheme] = useState(getInitialTheme)
+
+  useEffect(() => {
+    function onThemeChange(e) {
+      setCurrentTheme(e.detail)
+    }
+    window.addEventListener('theme-changed', onThemeChange)
+    return () => window.removeEventListener('theme-changed', onThemeChange)
+  }, [])
+
+  function handleThemeChange(targetTheme) {
+    applyTheme(targetTheme)
+    setCurrentTheme(targetTheme)
+  }
 
   // 资料表单
   const [email, setEmail] = useState('')
@@ -469,13 +488,41 @@ export default function ProfilePage({ auth, onLogout }) {
                     />
                   </div>
 
+                  <div className="field">
+                    <label>界面外观偏好</label>
+                    <div className="profile-theme-selector">
+                      <button
+                        type="button"
+                        className={`theme-option-btn${currentTheme === 'light' ? ' is-active' : ''}`}
+                        onClick={() => handleThemeChange('light')}
+                      >
+                        <IconSun className="theme-opt-icon" />
+                        <div className="theme-opt-info">
+                          <span className="theme-opt-title">浅色模式</span>
+                          <span className="theme-opt-sub">清爽纸质白</span>
+                        </div>
+                      </button>
+                      <button
+                        type="button"
+                        className={`theme-option-btn${currentTheme === 'dark' ? ' is-active' : ''}`}
+                        onClick={() => handleThemeChange('dark')}
+                      >
+                        <IconMoon className="theme-opt-icon" />
+                        <div className="theme-opt-info">
+                          <span className="theme-opt-title">深色模式</span>
+                          <span className="theme-opt-sub">沉浸护眼黑</span>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
                   <div className="form-submit-row">
                     <button
                       type="submit"
                       className="btn btn-primary"
                       disabled={profileSaving}
                     >
-                      {profileSaving ? '正在保存...' : '保存修改'}
+                      {profileSaving ? '正在保存...' : '保存资料'}
                     </button>
                   </div>
                 </form>
