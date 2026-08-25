@@ -226,6 +226,15 @@ export default function ProfilePage({ auth, onLogout }) {
         </div>
 
         <div className="profile-hero-actions">
+          <button
+            type="button"
+            className="btn btn-outline profile-theme-quick-btn"
+            onClick={() => handleThemeChange(currentTheme === 'dark' ? 'light' : 'dark')}
+            title={currentTheme === 'dark' ? '切换为浅色模式' : '切换为深色模式'}
+          >
+            {currentTheme === 'dark' ? <IconSun className="btn-icon" /> : <IconMoon className="btn-icon" />}
+            <span>{currentTheme === 'dark' ? '浅色模式' : '深色模式'}</span>
+          </button>
           <button type="button" className="btn btn-outline" onClick={handleLogout}>
             退出登录
           </button>

@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { NavLink, useNavigate, useLocation } from 'react-router-dom'
-import { IconSearch, IconSun, IconMoon } from './Icons.jsx'
-import { getInitialTheme, toggleTheme } from '../utils/theme.js'
+import { IconSearch } from './Icons.jsx'
 
 const icons = {
   home: (
@@ -67,24 +66,6 @@ export default function Siderail() {
 
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchVal, setSearchVal] = useState('')
-
-  // 深色/浅色模式状态
-  const [theme, setTheme] = useState(getInitialTheme)
-
-  useEffect(() => {
-    function handleThemeChange(e) {
-      setTheme(e.detail)
-    }
-    window.addEventListener('theme-changed', handleThemeChange)
-    return () => window.removeEventListener('theme-changed', handleThemeChange)
-  }, [])
-
-  function handleToggleTheme(e) {
-    e.preventDefault()
-    e.stopPropagation()
-    const next = toggleTheme()
-    setTheme(next)
-  }
 
   // 同步 URL 中的 ?q 参数
   useEffect(() => {
@@ -164,7 +145,7 @@ export default function Siderail() {
       className={`siderail${collapsed ? '' : ' expanded'}`}
       onClick={handleRailClick}
     >
-      {/* 顶部 Brand 区域：标题 + [主题切换] + [搜索按钮 (在折叠按钮左侧)] + [折叠按钮] */}
+      {/* 顶部 Brand 区域：标题 + [搜索按钮 (在折叠按钮左侧)] + [折叠按钮] */}
       <div className="siderail-brand">
         <NavLink
           to="/"
@@ -180,21 +161,8 @@ export default function Siderail() {
           <span className="brand-label">Quill</span>
         </NavLink>
 
-        {/* 顶部右侧操作组：深色模式切换 + 搜索按钮 + 折叠按钮 */}
+        {/* 顶部右侧操作组：搜索按钮在折叠按钮左侧 */}
         <div className="brand-action-group">
-          <button
-            type="button"
-            className="brand-action-btn brand-theme-btn"
-            onClick={handleToggleTheme}
-            title={theme === 'dark' ? '切换为浅色模式' : '切换为深色模式'}
-            aria-label="切换深色/浅色模式"
-          >
-            {theme === 'dark' ? (
-              <IconSun className="brand-action-icon theme-icon-sun" />
-            ) : (
-              <IconMoon className="brand-action-icon theme-icon-moon" />
-            )}
-          </button>
           <button
             type="button"
             className={`brand-action-btn brand-search-btn${searchOpen ? ' active' : ''}`}
@@ -252,22 +220,8 @@ export default function Siderail() {
         <RailLink to="/projects" label="项目" icon="project" />
       </nav>
 
-      {/* 底部功能区：折叠态主题切换与个人中心 */}
+      {/* 底部用户中心 */}
       <div className="siderail-bottom">
-        <button
-          type="button"
-          className="rail-link siderail-theme-btn-link"
-          onClick={handleToggleTheme}
-          title={theme === 'dark' ? '切换为浅色模式' : '切换为深色模式'}
-          aria-label="切换主题"
-        >
-          {theme === 'dark' ? (
-            <IconSun className="theme-toggle-icon" />
-          ) : (
-            <IconMoon className="theme-toggle-icon" />
-          )}
-          <span>{theme === 'dark' ? '浅色模式' : '深色模式'}</span>
-        </button>
         <RailLink to="/profile" label="个人中心" icon="profile" />
       </div>
     </aside>
