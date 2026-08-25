@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { getArticles } from '../api/articles.js'
+import { getArticles, deleteArticle } from '../api/articles.js'
 import { formatDateParts } from '../utils/date.js'
-import { IconPlus } from '../components/Icons.jsx'
+import { IconPlus, IconTrash } from '../components/Icons.jsx'
+import ConfirmModal from '../components/ConfirmModal.jsx'
 
-function ArticleEntry({ article, onTagClick, index }) {
+function ArticleEntry({ article, onTagClick, onDelete, isAdmin, index }) {
   const itemRef = useRef(null)
   const [isVisible, setIsVisible] = useState(false)
 
@@ -51,12 +52,33 @@ function ArticleEntry({ article, onTagClick, index }) {
         </span>
       )}
       <div className="entry-body">
-        <h2 className="entry-heading">
-          <Link className="entry-title" to={`/articles/${article.id}`}>
-            {article.title}
-          </Link>
-        </h2>
+        <div className="entry-title-row">
+          <h2 className="entry-heading">
+            <Link className="entry-title" to={`/articles/${article.id}`}>
+              {article.title}
+            </Link>
+          </h2>
+
+          {/* 带有开盖动效的垃圾桶删除按钮 */}
+          {isAdmin && (
+            <button
+              type="button"
+              className="entry-delete-btn"
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                onDelete(article)
+              }}
+              title="删除文章"
+              aria-label="删除文章"
+            >
+              <IconTrash className="trash-can-icon" />
+            </button>
+          )}
+        </div>
+
         <p className="entry-summary">{article.summary}</p>
+
         {article.tags?.length > 0 && (
           <div className="entry-tags">
             {article.tags.map((t) => (
@@ -86,6 +108,10 @@ export default function ArticleList({ auth }) {
 
   // 滚动吸顶状态监听
   const [scrolled, setScrolled] = useState(false)
+
+  // 删除确认弹窗状态
+  const [deletingArticle, setDeletingArticle] = useState(null)
+  const [deleteLoading, setDeleteLoading] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -127,18 +153,35 @@ export default function ArticleList({ auth }) {
     scrollContainer.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  // 确认删除文章
+  async function handleConfirmDelete() {
+    if (!deletingArticle) return
+    try {
+      setDeleteLoading(true)
+      await deleteArticle(deletingArticle.id)
+      setArticles((prev) => prev.filter((a) => a.id !== deletingArticle.id))
+      setDeletingArticle(null)
+    } catch (err) {
+      alert('删除文章失败：' + err.message)
+    } finally {
+      setDeleteLoading(false)
+    }
+  }
+
   if (error) return <p className="status status-error">加载失败：{error}</p>
+
+  const isAdmin = auth?.role === 'admin'
 
   return (
     <div className="article-list-container">
-      {/* 滚动动效吸顶栏（无进度条指示器） */}
+      {/* 滚动动效吸顶栏 */}
       <div className={`article-list-sticky-bar${scrolled ? ' is-scrolled' : ''}`}>
         <div className="article-list-header">
           <div className="article-list-title-wrap">
             <h1 className="article-list-title">文章精选</h1>
             <span className="article-count-badge">{articles.length} 篇</span>
           </div>
-          {auth?.role === 'admin' && (
+          {isAdmin && (
             <Link to="/articles/new" className="btn btn-primary btn-write-article">
               <IconPlus className="btn-icon" />
               写文章
@@ -171,7 +214,7 @@ export default function ArticleList({ auth }) {
           ) : (
             <>
               <p>还没有文章。</p>
-              {auth?.role === 'admin' ? (
+              {isAdmin ? (
                 <p>
                   写下第一篇，<Link to="/articles/new">记录你的全栈之旅</Link>。
                 </p>
@@ -193,7 +236,9 @@ export default function ArticleList({ auth }) {
                 key={a.id}
                 article={a}
                 index={idx}
+                isAdmin={isAdmin}
                 onTagClick={handleTagClick}
+                onDelete={setDeletingArticle}
               />
             ))}
           </ol>
@@ -214,6 +259,19 @@ export default function ArticleList({ auth }) {
           </svg>
         </button>
       )}
+
+      {/* 删除确认弹窗 */}
+      <ConfirmModal
+        isOpen={!!deletingArticle}
+        title="确认删除文章"
+        message={`确定要删除文章「${deletingArticle?.title}」吗？删除后内容将无法恢复。`}
+        confirmText="删除文章"
+        cancelText="取消"
+        danger
+        loading={deleteLoading}
+        onConfirm={handleConfirmDelete}
+        onClose={() => setDeletingArticle(null)}
+      />
     </div>
   )
 }

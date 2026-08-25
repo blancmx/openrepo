@@ -503,12 +503,71 @@ body {
 
 .entry-body {
   min-width: 0;
+  flex: 1;
+}
+
+.entry-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .entry-heading {
   margin: 0;
   font-size: 20px;
   line-height: 1.45;
+  flex: 1;
+  min-width: 0;
+}
+
+.entry-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 180ms ease, color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.entry:hover .entry-delete-btn {
+  opacity: 0.85;
+}
+
+.entry-delete-btn:hover {
+  color: var(--cinnabar);
+  background: rgba(194, 64, 31, 0.09);
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+/* 开盖垃圾桶动效 */
+.trash-can-icon {
+  width: 18px;
+  height: 18px;
+  overflow: visible;
+}
+
+.trash-can-icon .trash-lid {
+  transform-origin: 3.5px 7px;
+  transition: transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 光标悬停时朝一侧优雅弹开垃圾桶盖子 */
+.entry-delete-btn:hover .trash-can-icon .trash-lid {
+  transform: rotate(-35deg) translate(-2px, -3px);
+}
+
+.trash-can-icon .trash-body {
+  transition: stroke 180ms ease;
 }
 
 .entry-title {
